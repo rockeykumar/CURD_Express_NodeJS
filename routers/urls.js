@@ -20,7 +20,7 @@ const Storage = multer.diskStorage({
       fileName = fileName.substring(0, index)
       
       fileName = fileName+"_"+Date.now()+path.extname(file.originalname);
-      // console.log(fileName);
+
       cb(null, fileName);
     }
 });
@@ -29,40 +29,22 @@ const uploadMiddleware = multer({
     storage: Storage
 }).single('profileImage');
   
-// router.post("/upload", uploadMiddleware,  (req, res) => {
-//     let fileName = req.file.filename;
-//     let success = req.file.filename + " uploaded successfully...!";
-//     console.log(fileName);
-//     res.render("upload-file", {success});
-// });
-  
-// router.get("/upload", (req, res) => {
-//     res.render("upload-file", {success:""});
-// });
-  
-  // ------------ image upload end -------------
+// image upload method ------ end --------------- 
 
-// console.log(path.join(__dirname));
-// const url = "http://localhost:8000/";
-// const imageLocationPath = path.join('uploads', 'raj.jpg').replace(/\\/g, '/');
-// console.log(url+imageLocationPath);
-
-  
 router.get("/", async (req, res) => {
+
     let result = await getData();
-    // console.log(result);
-    // res.send(result);
     res.render("index", { records: result });
+
 });
   
 router.post("/", uploadMiddleware, async (req, res) => {
-  // console.log(req.body);
+    const url = "http://localhost:8000/";
     let name = req.body.name;
     let roll = req.body.roll;
     let mobile = req.body.mobile;
     let address = req.body.address;
-    // let profileImage = path.join(__dirname,'..', 'public', 'uploads', req.file.filename).replace(/\\/g, '/');
-    const url = "http://localhost:8000/";
+    
     let profileImage = url + path.join('uploads', req.file.filename).replace(/\\/g, '/');
   
     const userData = {name, roll, mobile, address, profileImage};
@@ -96,7 +78,7 @@ router.get("/updateRecord/:roll", async (req, res) => {
     let updateData = {searchname, searchroll, searchmobile};
   
     let result = await filter(updateData);
-    // console.log(result);
+  
     res.render("updateRecord", { records: result });
 });
   
@@ -104,7 +86,7 @@ router.post("/updateRecord", async (req, res) => {
     updateRecord(req.body);
     let result = await getData();
     res.render("index", { records: result });
-    // res.redirect("/");
+
 });
 
 
