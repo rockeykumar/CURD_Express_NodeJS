@@ -42,9 +42,10 @@ const uploadMiddleware = multer({
   
   // ------------ image upload end -------------
 
-// console.log(path.join(__dirname,'./public/upload'));
-// const imageLocationPath = path.join(__dirname,'..', 'public', 'uploads');
-// console.log(imageLocationPath);
+// console.log(path.join(__dirname));
+// const url = "http://localhost:8000/";
+// const imageLocationPath = path.join('uploads', 'raj.jpg').replace(/\\/g, '/');
+// console.log(url+imageLocationPath);
 
   
 router.get("/", async (req, res) => {
@@ -60,8 +61,9 @@ router.post("/", uploadMiddleware, async (req, res) => {
     let roll = req.body.roll;
     let mobile = req.body.mobile;
     let address = req.body.address;
-    // let profileImage = path.join(__dirname, "..", req.file.path);
-    let profileImage = req.file.filename;
+    // let profileImage = path.join(__dirname,'..', 'public', 'uploads', req.file.filename).replace(/\\/g, '/');
+    const url = "http://localhost:8000/";
+    let profileImage = url + path.join('uploads', req.file.filename).replace(/\\/g, '/');
   
     const userData = {name, roll, mobile, address, profileImage};
   
